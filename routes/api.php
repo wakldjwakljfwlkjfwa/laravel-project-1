@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TopicController;
@@ -21,7 +22,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::name('api.')->group(function () {
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+});
+
 Route::middleware('auth:sanctum')->name('api.')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
     Route::prefix('/news')->name('news.')->group(function () {
         Route::get('/by-author/{author}', [NewsController::class, 'newsByAuthor'])->name('by-author');
         Route::post('/', [NewsController::class, 'store'])->name('store');
