@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
 
     Route::prefix('/authors')->name('authors.')->group(function () {
         Route::get('/', [AuthorController::class, 'index'])->name('index');
+        Route::post('/', [AuthorController::class, 'store'])->name('store');
     });
 
     Route::prefix('/topics')->name('topics.')->group(function () {
