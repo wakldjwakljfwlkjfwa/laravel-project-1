@@ -33,4 +33,9 @@ class NewsController extends Controller
 
         return $news;
     }
+
+    public function search(Request $request, string $search)
+    {
+        return News::where('title', 'like', "%{$search}%")->paginate();
+    }
 }
