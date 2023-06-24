@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\TopicController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +28,9 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
 
     Route::prefix('/authors')->name('authors.')->group(function () {
         Route::get('/', [AuthorController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('/topics')->name('topics.')->group(function () {
+        Route::post('/', [TopicController::class, 'store'])->name('store');
     });
 });

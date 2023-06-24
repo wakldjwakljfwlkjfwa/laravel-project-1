@@ -19,7 +19,7 @@ class AuthorControllerTest extends TestCase
         $this->actingAs($user);
     }
 
-    public function test_example(): void
+    public function test_authors_index_returns_pagination(): void
     {
         Author::factory(3)->create();
         $response = $this->get(route('api.authors.index'));

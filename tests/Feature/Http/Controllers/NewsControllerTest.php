@@ -20,7 +20,7 @@ class NewsControllerTest extends TestCase
         $this->actingAs($user);
     }
 
-    public function test_example(): void
+    public function test_news_by_author_returns_all_news_that_belongs_to_the_author(): void
     {
         $author = Author::factory()->create();
         News::factory(3)->create([
