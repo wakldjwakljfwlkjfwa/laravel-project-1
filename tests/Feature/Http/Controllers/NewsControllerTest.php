@@ -71,4 +71,15 @@ class NewsControllerTest extends TestCase
             fn (AssertableJson $json) => $json->has('data', 1)->where('data.0.title', $news->title)->etc()
         );
     }
+
+    public function test_news_show_returns_news_by_id(): void
+    {
+        $news = News::factory()->create();
+        $response = $this->get(route('api.news.show', [
+            'news' => $news->id,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json->where('title', $news->title)->etc());
+    }
 }

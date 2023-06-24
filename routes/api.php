@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
         Route::get('/by-author/{author}', [NewsController::class, 'newsByAuthor'])->name('by-author');
         Route::post('/', [NewsController::class, 'store'])->name('store');
         Route::get('/search/{search}', [NewsController::class, 'search'])->name('search');
+        Route::get('/{news}', [NewsController::class, 'show'])->name('show');
     });
 
     Route::prefix('/authors')->name('authors.')->group(function () {
