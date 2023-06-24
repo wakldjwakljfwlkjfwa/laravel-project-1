@@ -3,6 +3,7 @@
 namespace Tests\Feature\Models;
 
 use App\Models\Author;
+use App\Models\News;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -27,5 +28,14 @@ class AuthorTest extends TestCase
         $author = Author::factory()->create();
         $this->assertDatabaseCount('authors', 1);
         $this->assertEquals($author->email(), $author->user->email);
+    }
+
+    public function test_can_fetch_news_that_belong_to_author(): void
+    {
+        $author = Author::factory()->create();
+        News::factory(3)->create([
+            'author_id' => $author->id,
+        ]);
+        $this->assertCount(3, $author->news);
     }
 }
