@@ -6,6 +6,7 @@ use App\Http\Requests\StoreNewsRequest;
 use App\Models\Author;
 use App\Models\News;
 use App\Models\NewsTopic;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -42,5 +43,10 @@ class NewsController extends Controller
     public function show(Request $request, News $news)
     {
         return $news;
+    }
+
+    public function newsByTopic(Request $request, Topic $topic)
+    {
+        return $topic->news()->paginate();
     }
 }

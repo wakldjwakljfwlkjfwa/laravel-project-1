@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\News;
+use App\Models\NewsTopic;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -81,5 +82,24 @@ class NewsControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json->where('title', $news->title)->etc());
+    }
+
+    public function test_news_by_topic_returns_only_news_that_belong_to_the_topic(): void
+    {
+        $topic = Topic::factory()->create();
+        $news = News::factory(3)->create();
+        News::factory(2)->create();
+
+        foreach ($news as $n) {
+            NewsTopic::create([
+                'news_id' => $n->id,
+                'topic_id' => $topic->id,
+            ]);
+        }
+
+        $response = $this->get(route('api.news.by-topic', ['topic' => $topic->id]));
+
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json->has('data', 3)->etc());
     }
 }
